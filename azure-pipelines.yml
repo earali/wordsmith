@@ -4,7 +4,7 @@ trigger:
 
 #add variables
 variables:
-  tag: '$(Build.BuildId)'
+  tag: '$(Build.BuildId)' 
 
 stages:
 - stage: Build
@@ -12,11 +12,19 @@ stages:
   jobs:
   - job: Build
     displayName: Build Job
-    pool: MyLaptop01
+    pool:
+      vmImage: 'ubuntu-latest'
     steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'azureconregconnection'
+        repository: 'appTest'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: $(tag)
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.Repository.LocalPath)'
+        PathtoPublish: '$(Build.SourcesDirectory)'
         ArtifactName: 'kube-manifests'
         publishLocation: 'Container'
 
