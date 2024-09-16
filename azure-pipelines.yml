@@ -12,16 +12,8 @@ stages:
   jobs:
   - job: Build
     displayName: Build Job
-    pool:
-      vmImage: 'ubuntu-latest'
+    pool: MyLaptop01
     steps:
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'azureconregconnection'
-        repository: 'appTest'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: $(tag)
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.Repository.LocalPath)'
