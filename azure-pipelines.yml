@@ -24,7 +24,7 @@ stages:
         tags: $(tag)
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        PathtoPublish: '$(Build.Repository.LocalPath)'
         ArtifactName: 'kube-manifests'
         publishLocation: 'Container'
 
